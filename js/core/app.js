@@ -472,6 +472,9 @@ var ChessTrainer = window.ChessTrainer || {};
       return;
     }
 
+    if (input) input.value = '';
+    this.recallAnswerValue = '';
+
     var result = modeInst.submitAnswer(answer);
     if (!result) return;
 
