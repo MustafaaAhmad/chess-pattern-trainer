@@ -53,6 +53,16 @@
             <h2>Blindfold Trainer</h2>
             <p>Visualize the board without seeing it. Advanced.</p>
           </div>
+          <div class="mode-card" data-mode="midgame" tabindex="0" role="button" aria-label="Midgame Tactics mode">
+            <div class="mode-card-icon">⚡</div>
+            <h2>Midgame Tactics</h2>
+            <p>Solve tactical puzzles from real middlegame positions.</p>
+          </div>
+          <div class="mode-card" data-mode="endgame" tabindex="0" role="button" aria-label="Endgame Trainer mode">
+            <div class="mode-card-icon">🏁</div>
+            <h2>Endgame Trainer</h2>
+            <p>Practice essential endgame techniques and checkmates.</p>
+          </div>
         </div>
         <div class="menu-extra">
           <button id="btn-daily" class="btn btn-primary">Daily Challenge</button>
@@ -161,6 +171,48 @@
         </div>
       </section>
 
+      <!-- MIDGAME TACTICS -->
+      <section id="screen-midgame" class="screen">
+        <div id="midgame-select-phase">
+          <h2>Midgame Tactics</h2>
+          <p style="color:var(--color-text-secondary);margin:4px 0 12px;">Find the best move in each position.</p>
+          <div id="midgame-puzzle-area">
+            <div id="midgame-board-container" class="board-container board-container--small"></div>
+            <div id="midgame-puzzle-name" class="puzzle-name"></div>
+            <div id="midgame-hint-text" class="puzzle-hint hidden"></div>
+            <div id="midgame-feedback" class="puzzle-feedback hidden"></div>
+            <div class="puzzle-controls">
+              <button id="btn-midgame-hint" class="btn btn-secondary btn-small">Hint</button>
+              <button id="btn-midgame-skip" class="btn btn-secondary btn-small">Skip</button>
+              <button id="btn-midgame-next" class="btn btn-primary btn-small">Next Puzzle</button>
+              <button id="btn-midgame-back" class="btn btn-secondary btn-small">Back to Menu</button>
+            </div>
+            <div id="midgame-progress" class="puzzle-progress"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ENDGAME TRAINER -->
+      <section id="screen-endgame" class="screen">
+        <div id="endgame-select-phase">
+          <h2>Endgame Trainer</h2>
+          <p style="color:var(--color-text-secondary);margin:4px 0 12px;">Find the winning move in each endgame position.</p>
+          <div id="endgame-puzzle-area">
+            <div id="endgame-board-container" class="board-container board-container--small"></div>
+            <div id="endgame-puzzle-name" class="puzzle-name"></div>
+            <div id="endgame-hint-text" class="puzzle-hint hidden"></div>
+            <div id="endgame-feedback" class="puzzle-feedback hidden"></div>
+            <div class="puzzle-controls">
+              <button id="btn-endgame-hint" class="btn btn-secondary btn-small">Hint</button>
+              <button id="btn-endgame-skip" class="btn btn-secondary btn-small">Skip</button>
+              <button id="btn-endgame-next" class="btn btn-primary btn-small">Next Puzzle</button>
+              <button id="btn-endgame-back" class="btn btn-secondary btn-small">Back to Menu</button>
+            </div>
+            <div id="endgame-progress" class="puzzle-progress"></div>
+          </div>
+        </div>
+      </section>
+
       <!-- STATS SCREEN -->
       <section id="screen-stats" class="screen">
         <h2>My Stats</h2>
@@ -184,7 +236,7 @@
             <dt>Enter</dt><dd>Submit answer</dd>
             <dt>R</dt><dd>Reveal / Next phase</dd>
             <dt>N</dt><dd>Next position</dd>
-            <dt>1-5</dt><dd>Select mode 1-5</dd>
+            <dt>1-7</dt><dd>Select mode 1-7</dd>
             <dt>Esc</dt><dd>Back to menu</dd>
             <dt>D</dt><dd>Toggle dark mode</dd>
           </dl>
@@ -194,6 +246,7 @@
   </div>
 
   <!-- Scripts loaded in dependency order -->
+  <script src="js/lib/chess.js"></script>
   <script src="js/chess/fen.js"></script>
   <script src="js/chess/board.js"></script>
   <script src="js/core/timer.js"></script>
@@ -209,6 +262,8 @@
   <script src="js/engine/modes/change.js"></script>
   <script src="js/engine/modes/missing.js"></script>
   <script src="js/engine/modes/blindfold.js"></script>
+  <script src="js/engine/modes/midgame.js"></script>
+  <script src="js/engine/modes/endgame.js"></script>
   <script src="js/core/app.js"></script>
 </body>
 </html>
