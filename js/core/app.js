@@ -40,6 +40,10 @@ var ChessTrainer = window.ChessTrainer || {};
     this.reconstructHighlights = {};
     this.isDailyChallenge = false;
 
+    this.openingsData = null;
+    this.selectedOpeningsSquare = null;
+    this.openingsLegalMoves = [];
+
     var self = this;
     this.modeConfig = {
       recall: {
@@ -76,6 +80,13 @@ var ChessTrainer = window.ChessTrainer || {};
         recallTime: 0,
         ModeClass: ns.Modes.Blindfold,
         screens: ['study', 'recall', 'results']
+      },
+      openings: {
+        name: 'Openings Trainer',
+        studyTime: 0,
+        recallTime: 0,
+        ModeClass: ns.Modes.Openings,
+        screens: ['openings', 'results']
       }
     };
   }
@@ -85,6 +96,7 @@ var ChessTrainer = window.ChessTrainer || {};
     ns.Theme.init();
     this.bindEvents();
     this.loadPositions();
+    this.loadOpenings();
 
     document.getElementById('shortcuts-hint').addEventListener('click', function () {
       document.getElementById('shortcuts-modal').classList.remove('hidden');
@@ -117,6 +129,26 @@ var ChessTrainer = window.ChessTrainer || {};
     };
     xhr.onerror = function () {
       self.positions = [];
+    };
+    xhr.send();
+  };
+
+  App.prototype.loadOpenings = function () {
+    var self = this;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/openings.json', true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          self.openingsData = data.openings || data || [];
+        } catch (e) {
+          self.openingsData = [];
+        }
+      }
+    };
+    xhr.onerror = function () {
+      self.openingsData = [];
     };
     xhr.send();
   };
@@ -194,6 +226,19 @@ var ChessTrainer = window.ChessTrainer || {};
       self.onBlindfoldSubmit();
     });
 
+    document.getElementById('btn-openings-back').addEventListener('click', function () {
+      self.showScreen(STATE.MENU);
+    });
+    document.getElementById('btn-openings-back-play').addEventListener('click', function () {
+      self.showScreen(STATE.MENU);
+    });
+    document.getElementById('btn-openings-hint').addEventListener('click', function () {
+      self.onOpeningsHint();
+    });
+    document.getElementById('btn-openings-skip').addEventListener('click', function () {
+      self.onOpeningsSkip();
+    });
+
     document.getElementById('difficulty-select').addEventListener('change', function () {
       var settings = Storage.getSettings();
       settings.difficulty = this.value;
@@ -221,6 +266,7 @@ var ChessTrainer = window.ChessTrainer || {};
       case '3': this.selectMode('change'); break;
       case '4': this.selectMode('missing'); break;
       case '5': this.selectMode('blindfold'); break;
+      case '6': this.selectMode('openings'); break;
       case 'd':
       case 'D':
         ns.Theme.toggle();
@@ -259,6 +305,11 @@ var ChessTrainer = window.ChessTrainer || {};
 
     if (modeId === 'change') {
       this.startChangeMode();
+      return;
+    }
+
+    if (modeId === 'openings') {
+      this.showOpeningsList();
       return;
     }
 
@@ -587,6 +638,12 @@ var ChessTrainer = window.ChessTrainer || {};
   App.prototype.nextPosition = function () {
     var self = this;
     var modeId = this.currentMode;
+
+    if (modeId === 'openings') {
+      self.showOpeningsList();
+      return;
+    }
+
     this.selectRandomPosition(function (pos) {
       if (!pos) {
         self.showScreen(STATE.MENU);
@@ -1080,6 +1137,287 @@ var ChessTrainer = window.ChessTrainer || {};
     } else {
       this.showBlindfoldQuestion();
     }
+  };
+
+  App.prototype.showOpeningsList = function () {
+    if (!this.openingsData || this.openingsData.length === 0) {
+      Components.showToast('Openings data not loaded yet. Try again.', 'error');
+      return;
+    }
+
+    var self = this;
+    var listEl = document.getElementById('openings-list');
+    listEl.innerHTML = '';
+
+    this.openingsData.forEach(function (opening) {
+      var card = document.createElement('div');
+      card.className = 'opening-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+
+      var numLines = opening.lines ? opening.lines.length : 0;
+      var diff = opening.difficulty || 'easy';
+
+      card.innerHTML =
+        '<h3>' + opening.name + '</h3>' +
+        '<span class="opening-difficulty ' + diff + '">' + diff + '</span>' +
+        '<p>' + (opening.description || '') + '</p>' +
+        '<div class="opening-lines-count">' + numLines + ' line' + (numLines > 1 ? 's' : '') + '</div>';
+
+      card.addEventListener('click', function () {
+        self.startOpeningsMode(opening);
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') self.startOpeningsMode(opening);
+      });
+
+      listEl.appendChild(card);
+    });
+
+    document.getElementById('openings-play-phase').classList.add('hidden');
+    document.getElementById('openings-select-phase').classList.remove('hidden');
+    this.showScreen('openings');
+  };
+
+  App.prototype.startOpeningsMode = function (openingCategory) {
+    if (!openingCategory.lines || openingCategory.lines.length === 0) {
+      Components.showToast('No lines available for this opening', 'error');
+      return;
+    }
+
+    var lineIdx = Math.floor(Math.random() * openingCategory.lines.length);
+    var line = openingCategory.lines[lineIdx];
+
+    this.currentMode = 'openings';
+    this.isDailyChallenge = false;
+    this.modeInstance = new ns.Modes.Openings(openingCategory, line);
+    this.modeInstance.setup();
+    this.selectedOpeningsSquare = null;
+    this.openingsLegalMoves = [];
+
+    document.getElementById('openings-title').textContent = openingCategory.name;
+    document.getElementById('openings-line-name').textContent = line.name + ' (' + (line.playAs === 'white' ? 'Play White' : 'Play Black') + ')';
+
+    document.getElementById('openings-select-phase').classList.add('hidden');
+    document.getElementById('openings-play-phase').classList.remove('hidden');
+
+    this.renderOpeningsBoard();
+    this.updateOpeningsUI();
+  };
+
+  App.prototype.renderOpeningsBoard = function () {
+    var self = this;
+    var modeInst = this.modeInstance;
+    var container = document.getElementById('openings-board-container');
+    var board = modeInst.getBoardForRender();
+
+    Renderer.renderBoard(container, board, {
+      showPieces: true,
+      showCoords: true,
+      interactive: true,
+      onSquareClick: function (sqData) {
+        self.onOpeningsSquareClick(sqData);
+      }
+    });
+
+    if (this.selectedOpeningsSquare) {
+      var squares = container.querySelectorAll('.square');
+      var selSquare = this.selectedOpeningsSquare;
+
+      var legalSet = {};
+      this.openingsLegalMoves.forEach(function (sq) { legalSet[sq] = true; });
+
+      squares.forEach(function (el) {
+        var sqName = el.dataset.square;
+
+        if (sqName === selSquare) {
+          el.classList.add('selected-piece');
+        }
+
+        if (legalSet[sqName]) {
+          el.classList.add('legal-move');
+          var p = modeInst.chess.get(sqName);
+          if (p) {
+            el.classList.add('has-piece');
+          }
+        }
+      });
+    }
+  };
+
+  App.prototype.onOpeningsSquareClick = function (sqData) {
+    var modeInst = this.modeInstance;
+    if (!modeInst.isUserTurn() || modeInst.completed) return;
+
+    var square = sqData.square;
+
+    if (this.selectedOpeningsSquare === null) {
+      var piece = modeInst.chess.get(square);
+      if (!piece) return;
+      var turn = modeInst.chess.turn();
+      if (piece.color !== turn) return;
+
+      this.selectedOpeningsSquare = square;
+      this.openingsLegalMoves = modeInst.getLegalMoves(square);
+      this.renderOpeningsBoard();
+    } else {
+      if (square === this.selectedOpeningsSquare) {
+        this.selectedOpeningsSquare = null;
+        this.openingsLegalMoves = [];
+        this.renderOpeningsBoard();
+        return;
+      }
+
+      var isLegal = false;
+      for (var i = 0; i < this.openingsLegalMoves.length; i++) {
+        if (this.openingsLegalMoves[i] === square) {
+          isLegal = true;
+          break;
+        }
+      }
+
+      if (isLegal) {
+        var result = modeInst.submitMove(this.selectedOpeningsSquare, square, 'q');
+        this.selectedOpeningsSquare = null;
+        this.openingsLegalMoves = [];
+        this.renderOpeningsBoard();
+        this.updateOpeningsUI();
+
+        if (result && result.correct) {
+          if (modeInst.completed) {
+            this.onOpeningsComplete();
+          }
+        }
+      } else {
+        var clickedPiece = modeInst.chess.get(square);
+        if (clickedPiece && clickedPiece.color === modeInst.chess.turn()) {
+          this.selectedOpeningsSquare = square;
+          this.openingsLegalMoves = modeInst.getLegalMoves(square);
+          this.renderOpeningsBoard();
+        } else {
+          this.selectedOpeningsSquare = null;
+          this.openingsLegalMoves = [];
+          this.renderOpeningsBoard();
+        }
+      }
+    }
+  };
+
+  App.prototype.onOpeningsHint = function () {
+    var modeInst = this.modeInstance;
+    if (!modeInst.isUserTurn() || modeInst.completed) return;
+
+    var expected = modeInst.getExpectedMove();
+    if (expected) {
+      Components.showToast('Expected move: ' + expected, 'info');
+    }
+  };
+
+  App.prototype.onOpeningsSkip = function () {
+    var modeInst = this.modeInstance;
+    if (!modeInst.isUserTurn() || modeInst.completed) return;
+
+    modeInst.skip();
+    this.selectedOpeningsSquare = null;
+    this.openingsLegalMoves = [];
+    this.renderOpeningsBoard();
+    this.updateOpeningsUI();
+
+    if (modeInst.completed) {
+      this.onOpeningsComplete();
+    }
+  };
+
+  App.prototype.updateOpeningsUI = function () {
+    var modeInst = this.modeInstance;
+    var score = modeInst.getScore();
+    document.getElementById('openings-score').textContent = score.correct + '/' + score.total;
+    document.getElementById('openings-status').textContent = modeInst.getStatus();
+
+    var feedbackEl = document.getElementById('openings-feedback');
+    var fb = modeInst.feedback;
+    if (fb) {
+      feedbackEl.textContent = fb.message;
+      feedbackEl.className = 'openings-feedback ' + fb.type;
+      feedbackEl.classList.remove('hidden');
+    } else {
+      feedbackEl.classList.add('hidden');
+    }
+
+    this.updateOpeningsMoveHistory();
+  };
+
+  App.prototype.updateOpeningsMoveHistory = function () {
+    var modeInst = this.modeInstance;
+    var historyEl = document.getElementById('openings-move-history');
+    historyEl.innerHTML = '';
+
+    var rows = [];
+    var row = {};
+
+    modeInst.history.forEach(function (h, idx) {
+      var sanClass = h.isUser ? (h.correct ? 'correct' : 'wrong') : 'opponent';
+      var sanHtml = '<span class="move-san ' + sanClass + '">' + h.san + '</span>';
+
+      if (idx % 2 === 0) {
+        row = { number: Math.floor(idx / 2) + 1, white: sanHtml, black: '' };
+        if (idx + 1 >= modeInst.history.length) {
+          rows.push(row);
+        }
+      } else {
+        row.black = sanHtml;
+        rows.push(row);
+      }
+    });
+
+    rows.forEach(function (r) {
+      var div = document.createElement('div');
+      div.className = 'move-row';
+      div.innerHTML =
+        '<span class="move-number">' + r.number + '.</span>' +
+        '<span class="move-white">' + (r.white || '') + '</span>' +
+        '<span class="move-black">' + (r.black || '') + '</span>';
+      historyEl.appendChild(div);
+    });
+
+    historyEl.scrollTop = historyEl.scrollHeight;
+  };
+
+  App.prototype.onOpeningsComplete = function () {
+    var modeInst = this.modeInstance;
+    var score = modeInst.getScore();
+
+    this.processSessionResults({
+      mode: 'openings',
+      totalQuestions: score.total,
+      correct: score.correct,
+      accuracy: score.accuracy,
+      byType: { 'opening-move': { total: score.total, correct: score.correct } }
+    });
+
+    var boardContainer = document.getElementById('results-board-container');
+    var board = modeInst.getBoardForRender();
+    Renderer.renderBoard(boardContainer, board, { showPieces: true, showCoords: true });
+
+    var summaryEl = document.getElementById('results-summary');
+    summaryEl.innerHTML = '<div class="results-accuracy" style="color:' + (score.accuracy >= 70 ? 'var(--color-success)' : 'var(--color-error)') + '">' +
+      score.accuracy + '%</div>' +
+      '<div class="results-details">' + score.correct + ' / ' + score.total + ' correct (' + score.errors + ' errors)</div>';
+
+    var listEl = document.getElementById('results-list');
+    listEl.innerHTML = '';
+    modeInst.history.forEach(function (h) {
+      if (h.isUser) {
+        var item = document.createElement('div');
+        item.className = 'result-item ' + (h.correct ? 'correct' : 'incorrect');
+        item.innerHTML = '<span>' + h.san + '</span><span class="result-status ' + (h.correct ? 'correct' : 'incorrect') + '">' +
+          (h.correct ? '✓' : '✗') + '</span>';
+        listEl.appendChild(item);
+      }
+    });
+
+    document.getElementById('btn-results-review').classList.add('hidden');
+    this.showScreen('results');
   };
 
   ns.App = App;

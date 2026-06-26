@@ -596,6 +596,150 @@ input { font-family: inherit; font-size: inherit; }
   .mode-grid { grid-template-columns: 1fr; }
 }
 
+/* --- Openings Trainer --- */
+.openings-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+  margin: 16px auto;
+}
+
+.opening-card {
+  background: var(--color-surface);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.opening-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.opening-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.opening-card h3 { font-size: 0.95rem; margin-bottom: 4px; }
+.opening-card .opening-difficulty {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.opening-card .opening-difficulty.easy { background: rgba(46,204,113,0.2); color: var(--color-success); }
+.opening-card .opening-difficulty.medium { background: rgba(243,156,18,0.2); color: var(--color-warning); }
+.opening-card .opening-difficulty.hard { background: rgba(231,76,60,0.2); color: var(--color-error); }
+.opening-card p { font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.4; }
+.opening-card .opening-lines-count {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+}
+
+.openings-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--small-board-size);
+  margin-bottom: 4px;
+  gap: 12px;
+}
+.openings-header h2 { font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.openings-line-name { font-size: 0.8rem; color: var(--color-text-secondary); }
+.openings-stats { display: flex; align-items: center; gap: 8px; }
+.openings-score { font-size: 1.2rem; font-weight: 700; }
+.openings-status {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin: 4px 0;
+  text-align: center;
+  font-weight: 600;
+}
+.openings-feedback {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 4px 0;
+  max-width: var(--small-board-size);
+  width: 100%;
+}
+.openings-feedback.correct { background: rgba(46,204,113,0.15); color: var(--color-success); }
+.openings-feedback.wrong { background: rgba(231,76,60,0.15); color: var(--color-error); }
+.openings-feedback.skipped { background: rgba(243,156,18,0.15); color: var(--color-warning); }
+
+.openings-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 8px 0;
+  max-width: var(--small-board-size);
+  width: 100%;
+}
+
+.openings-move-history {
+  width: 100%;
+  max-width: var(--small-board-size);
+  max-height: 140px;
+  overflow-y: auto;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: var(--color-surface);
+}
+
+.openings-move-history .move-row {
+  display: flex;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.openings-move-history .move-row:last-child { border-bottom: none; }
+.openings-move-history .move-number { color: var(--color-text-secondary); min-width: 30px; }
+.openings-move-history .move-white { min-width: 60px; }
+.openings-move-history .move-black { min-width: 60px; }
+.openings-move-history .move-san { font-family: monospace; }
+.openings-move-history .move-san.correct { color: var(--color-success); }
+.openings-move-history .move-san.wrong { color: var(--color-error); }
+.openings-move-history .move-san.opponent { color: var(--color-text); }
+
+/* Interactive board highlights for Openings mode */
+.square.selected-piece {
+  background: var(--color-selected) !important;
+  box-shadow: inset 0 0 0 3px var(--color-primary);
+}
+
+.square.legal-move {
+  cursor: pointer;
+}
+.square.legal-move::after {
+  content: '';
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.square.legal-move.has-piece::after {
+  width: 90%;
+  height: 90%;
+  background: transparent;
+  border: 4px solid rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+}
+
 /* --- Utility --- */
 .text-center { text-align: center; }
 .mt-8 { margin-top: 8px; }

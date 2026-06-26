@@ -1,0 +1,377 @@
+{
+  "openings": [
+    {
+      "id": "ruy-lopez",
+      "name": "Ruy Lopez (Spanish)",
+      "eco": "C60-C69",
+      "difficulty": "easy",
+      "description": "One of the oldest and most respected openings. White develops naturally and puts pressure on Black's centre.",
+      "lines": [
+        {
+          "name": "Main Line (Morphy Defence)",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","a6","Ba4","Nf6","O-O","Be7","Re1","b5","Bb3","d6","c3","O-O","h3","Nb8","d4","Nbd7"],
+          "playAs": "white"
+        },
+        {
+          "name": "Berlin Defence",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","Nf6","O-O","Nxe4","d4","Be7","Qe2","Nd6","Bxc6","bxc6","dxe5","Nb7"],
+          "playAs": "white"
+        },
+        {
+          "name": "Exchange Variation",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","a6","Bxc6","dxc6","O-O","Bg4","h3","h5"],
+          "playAs": "white"
+        },
+        {
+          "name": "Closed Defence (Black)",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","a6","Ba4","Nf6","O-O","Be7","Re1","b5","Bb3","d6","c3","O-O","d3","Na5","Bc2","c5"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "italian-game",
+      "name": "Italian Game",
+      "eco": "C50-C54",
+      "difficulty": "easy",
+      "description": "A classic opening that develops quickly and targets the centre. Ideal for learning fundamental chess principles.",
+      "lines": [
+        {
+          "name": "Giuoco Piano",
+          "moves": ["e4","e5","Nf3","Nc6","Bc4","Bc5","c3","Nf6","d4","exd4","cxd4","Bb6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Two Knights Defence",
+          "moves": ["e4","e5","Nf3","Nc6","Bc4","Nf6","Ng5","d5","exd5","Na5","Bb5+","c6","dxc6","bxc6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Italian Gambit (Black)",
+          "moves": ["e4","e5","Nf3","Nc6","Bc4","Bc5","c3","Nf6","d4","exd4","e5","d5"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "sicilian-defense",
+      "name": "Sicilian Defense",
+      "eco": "B20-B99",
+      "difficulty": "medium",
+      "description": "The most popular response to 1.e4. Black fights for the centre asymmetrically and aims for counterplay.",
+      "lines": [
+        {
+          "name": "Najdorf Variation",
+          "moves": ["e4","c5","Nf3","d6","d4","cxd4","Nxd4","Nf6","Nc3","a6","Be3","e5","Nb3","Be6","f3","Be7"],
+          "playAs": "white"
+        },
+        {
+          "name": "Dragon Variation",
+          "moves": ["e4","c5","Nf3","d6","d4","cxd4","Nxd4","Nf6","Nc3","g6","Be3","Bg7","f3","O-O","Qd2","Nc6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Classical Sicilian",
+          "moves": ["e4","c5","Nf3","d6","d4","cxd4","Nxd4","Nf6","Nc3","Nc6","Be2","e5","Nb3","Be7","O-O","O-O"],
+          "playAs": "white"
+        },
+        {
+          "name": "Open Sicilian (Black)",
+          "moves": ["e4","c5","Nf3","d6","d4","cxd4","Nxd4","Nf6","Nc3","a6","Be2","e5","Nb3","Be7","O-O","O-O"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "french-defense",
+      "name": "French Defense",
+      "eco": "C00-C19",
+      "difficulty": "medium",
+      "description": "A solid response to 1.e4. Black creates a sturdy pawn chain and prepares counterplay on the queenside.",
+      "lines": [
+        {
+          "name": "Classical Variation",
+          "moves": ["e4","e6","d4","d5","Nc3","Nf6","Bg5","Be7","e5","Nfd7","Bxe7","Qxe7","f4","O-O","Nf3","c5"],
+          "playAs": "white"
+        },
+        {
+          "name": "Winawer Variation",
+          "moves": ["e4","e6","d4","d5","Nc3","Bb4","e5","c5","a3","Bxc3+","bxc3","Ne7","Qd3","O-O"],
+          "playAs": "white"
+        },
+        {
+          "name": "Tarrasch Variation",
+          "moves": ["e4","e6","d4","d5","Nd2","Nf6","e5","Nfd7","Bd3","c5","c3","Nc6","Ne2","cxd4","cxd4","f6"],
+          "playAs": "white"
+        },
+        {
+          "name": "French Defence (Black)",
+          "moves": ["e4","e6","d4","d5","Nc3","Bb4","e5","c5","a3","Bxc3+","bxc3","Ne7","Qg4","O-O"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "caro-kann",
+      "name": "Caro-Kann Defense",
+      "eco": "B10-B19",
+      "difficulty": "easy",
+      "description": "A very solid defense to 1.e4. Black aims for a solid structure with minimal weaknesses.",
+      "lines": [
+        {
+          "name": "Classical Variation",
+          "moves": ["e4","c6","d4","d5","Nc3","dxe4","Nxe4","Bf5","Ng3","Bg6","h4","h6","Nf3","Nd7","h5","Bh7"],
+          "playAs": "white"
+        },
+        {
+          "name": "Advance Variation",
+          "moves": ["e4","c6","d4","d5","e5","Bf5","Nf3","e6","Be2","c5","O-O","Nc6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Exchange Variation",
+          "moves": ["e4","c6","d4","d5","exd5","cxd5","Bd3","Nc6","c3","Nf6","Bf4","Bg4"],
+          "playAs": "white"
+        },
+        {
+          "name": "Caro-Kann (Black)",
+          "moves": ["e4","c6","d4","d5","Nc3","dxe4","Nxe4","Bf5","Ng3","Bg6","Nf3","Nd7","Bd3","e6","O-O","Ngf6"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "scandinavian",
+      "name": "Scandinavian Defense",
+      "eco": "B01",
+      "difficulty": "easy",
+      "description": "Black immediately challenges the centre by capturing on d5. Leads to quick development for both sides.",
+      "lines": [
+        {
+          "name": "Main Line",
+          "moves": ["e4","d5","exd5","Qxd5","Nc3","Qa5","d4","Nf6","Nf3","Bg4","Be2","e6","O-O","Nc6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Scandinavian (Black)",
+          "moves": ["e4","d5","exd5","Qxd5","Nc3","Qa5","d4","Nf6","Nf3","c6","Bc4","Bg4"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "pirc-modern",
+      "name": "Pirc / Modern Defense",
+      "eco": "B07-B09",
+      "difficulty": "medium",
+      "description": "Hypermodern defenses where Black allows White to occupy the centre and then attacks it.",
+      "lines": [
+        {
+          "name": "Pirc Classical",
+          "moves": ["e4","d6","d4","Nf6","Nc3","g6","Nf3","Bg7","Be2","O-O","O-O","Bg4"],
+          "playAs": "white"
+        },
+        {
+          "name": "Austrian Attack",
+          "moves": ["e4","d6","d4","Nf6","Nc3","g6","f4","Bg7","Nf3","O-O","Be3","c6"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "queens-gambit",
+      "name": "Queen's Gambit",
+      "eco": "D06-D69",
+      "difficulty": "easy",
+      "description": "White offers a pawn to gain central control. One of the most fundamental d4 openings.",
+      "lines": [
+        {
+          "name": "Queen's Gambit Declined",
+          "moves": ["d4","d5","c4","e6","Nc3","Nf6","Bg5","Be7","e3","O-O","Nf3","Nbd7","Rc1","c6","Bd3","dxc4","Bxc4","Nd5"],
+          "playAs": "white"
+        },
+        {
+          "name": "Slav Defense",
+          "moves": ["d4","d5","c4","c6","Nf3","Nf6","Nc3","e6","Bg5","Be7","e3","O-O","Rc1","Nbd7","Bd3","dxc4","Bxc4","b5"],
+          "playAs": "white"
+        },
+        {
+          "name": "Queen's Gambit Accepted",
+          "moves": ["d4","d5","c4","dxc4","e3","e5","Bxc4","exd4","exd4","Nf6","Nf3","Bd6","O-O","O-O"],
+          "playAs": "white"
+        },
+        {
+          "name": "QGD (Black)",
+          "moves": ["d4","d5","c4","e6","Nc3","Nf6","Bg5","Be7","e3","O-O","Nf3","h6","Bh4","b6","cxd5","exd5"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "kings-indian",
+      "name": "King's Indian Defense",
+      "eco": "E60-E99",
+      "difficulty": "hard",
+      "description": "Black allows White to build a big centre and then attacks it with pieces and pawns. A sharp, combative opening.",
+      "lines": [
+        {
+          "name": "Classical Main Line",
+          "moves": ["d4","Nf6","c4","g6","Nc3","Bg7","e4","d6","Nf3","O-O","Be2","e5","O-O","Nc6","d5","Ne7"],
+          "playAs": "white"
+        },
+        {
+          "name": "Saemisch Variation",
+          "moves": ["d4","Nf6","c4","g6","Nc3","Bg7","e4","d6","f3","O-O","Be3","e5","d5","Nh5"],
+          "playAs": "white"
+        },
+        {
+          "name": "King's Indian (Black)",
+          "moves": ["d4","Nf6","c4","g6","Nc3","Bg7","e4","d6","Nf3","O-O","Be2","e5","O-O","exd4","Nxd4","Re8"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "nimzo-indian",
+      "name": "Nimzo-Indian Defense",
+      "eco": "E20-E59",
+      "difficulty": "hard",
+      "description": "A sophisticated defense where Black pins the knight on c3 and fights for central control.",
+      "lines": [
+        {
+          "name": "Classical Variation",
+          "moves": ["d4","Nf6","c4","e6","Nc3","Bb4","Qc2","O-O","a3","Bxc3+","Qxc3","d6","Bg5","Nbd7","e3","b6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Rubinstein Variation",
+          "moves": ["d4","Nf6","c4","e6","Nc3","Bb4","e3","O-O","Bd3","c5","Nf3","d5","O-O","dxc4","Bxc4","Nbd7"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "grunfeld",
+      "name": "Grünfeld Defense",
+      "eco": "D70-D99",
+      "difficulty": "hard",
+      "description": "A modern defense where Black invites White to build a big centre and then attacks it directly.",
+      "lines": [
+        {
+          "name": "Exchange Variation",
+          "moves": ["d4","Nf6","c4","g6","Nc3","d5","cxd5","Nxd5","e4","Nxc3","bxc3","Bg7","Bc4","O-O","Ne2","c5"],
+          "playAs": "white"
+        },
+        {
+          "name": "Russian Variation",
+          "moves": ["d4","Nf6","c4","g6","Nc3","d5","Nf3","Bg7","Qb3","dxc4","Qxc4","O-O","e4","Bg4","Be3","Nfd7"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "queens-indian",
+      "name": "Queen's Indian Defense",
+      "eco": "E12-E19",
+      "difficulty": "medium",
+      "description": "A solid and flexible defense for Black. The light-squared bishop on b7 pressures White's centre.",
+      "lines": [
+        {
+          "name": "Main Line",
+          "moves": ["d4","Nf6","c4","e6","Nf3","b6","g3","Bb7","Bg2","Be7","O-O","O-O","Nc3","Ne4","Qc2","Nxc3","Qxc3","c5"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "dutch-defense",
+      "name": "Dutch Defense",
+      "eco": "A80-A99",
+      "difficulty": "medium",
+      "description": "Black immediately stakes a claim on the kingside. A sharp and unbalanced opening.",
+      "lines": [
+        {
+          "name": "Stonewall Variation",
+          "moves": ["d4","f5","c4","Nf6","g3","e6","Bg2","Be7","Nf3","O-O","O-O","d5","b3","c6"],
+          "playAs": "white"
+        },
+        {
+          "name": "Leningrad Variation",
+          "moves": ["d4","f5","g3","Nf6","Bg2","g6","Nf3","Bg7","O-O","O-O","c4","d6"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "english-opening",
+      "name": "English Opening",
+      "eco": "A10-A39",
+      "difficulty": "medium",
+      "description": "A flexible opening that avoids immediate central confrontation. Often transposes into other openings.",
+      "lines": [
+        {
+          "name": "Symmetrical Variation",
+          "moves": ["c4","c5","Nc3","Nc6","g3","g6","Bg2","Bg7","Nf3","Nf6","O-O","O-O","a3","a6"],
+          "playAs": "white"
+        },
+        {
+          "name": "English (Black)",
+          "moves": ["c4","e5","Nc3","Nf6","g3","Bb4","Bg2","O-O","e4","c6","Nge2","d6"],
+          "playAs": "black"
+        }
+      ]
+    },
+    {
+      "id": "endgame-basics",
+      "name": "Basic Endgames",
+      "eco": "",
+      "difficulty": "easy",
+      "description": "Fundamental endgame positions every chess player must know. Practice converting a winning advantage.",
+      "lines": [
+        {
+          "name": "King + Queen vs King",
+          "moves": ["e4","d5","exd5","Qxd5","Nc3","Qd8","Bc4","Nf6","Nf3","Bg4","O-O","Nc6","Re1","e6","h3","Bh5","g4","Bg6","Ne5","Nxe5","Rxe5","Be7","d4","O-O","Bg5","Bxg5","Qxg5","Qd6","Qxd8","Rfxd8","Rae1","Rxd4","R1e4","Rxe4","Rxe4","Kf8","Bxe6","fxe6","Rxe6","Kf7","Rc6","Rd2","Nxd5","Rxb2","Nf4","Rb1+","Kg2","Rb2","Rc7+","Kf8","Rc8+","Kf7","Rc7+","Kf8","Rc8+","Kf7","Rc7+","Kf8","Rc8+","Ke7","Re8+","Kd6","Rxe1"],
+          "playAs": "white"
+        },
+        {
+          "name": "King + Rook vs King",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","Nge7","O-O","a6","Ba4","b5","Bb3","Na5","Bd5","Nf6","Bxa8","Nxb3","axb3","Qxa8","Nc3","Qb7","d4","exd4","Qxd4","Be7","Bg5","O-O","Rfe1","h6","Bh4","g5","Bg3","Nh5","Nd5","c6","Nb4","cxb5","Nd5","Nf4","Nxf4","gxf4","Qxb5","axb5","Rxa1","Qf5","Qd5","Qxd5","Nxd5","Bc5","Re5","Rb1","Rc1","Rxc1","Bxc1"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "pawn-endgames",
+      "name": "Pawn Endgames",
+      "eco": "",
+      "difficulty": "medium",
+      "description": "Essential pawn endgame techniques: opposition, key squares, and triangulation.",
+      "lines": [
+        {
+          "name": "Opposition (White wins)",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","Nf6","O-O","Be7","Re1","O-O","c3","a6","Ba4","b5","Bb3","d6","h3","Na5","Bc2","c5","d4","Qc7","Nbd2","Nc6","d5","Nb4","Bxf6","Bxf6","Nxe5","dxe5","Rxe5","Bf5","Nf3","Bd6","Re2","Qf4","Be4","Rfe8","Bxf5","Qxf5","Ng5","Qd7","Qh5","Nc2","Rb1","Qf5","Qxf5","Rxf5","Re4","Nb4","a3","Nc6","Ree1","Na5","Ra1","Nb3","Rxa6","Rxa6","Rxa6","Nc1","Rc6","Nb3","Rxc5","Nd4","Rd5","Nf3+","Kf1","Nd4","Rd8+","Bf8","Rxf8+","Kxf8","Nd2","Ne6","Ke1","Ng5","Ke2","Ne6","Ke3","Ke8","Ke4","Kd8","Kd5","Kc7","Kc5","Kb7","b4","Ne4+","Kd5","Nd2","Kd6","Ka7","Kc5","Ka6","Kb4","Kb6","a4","bxa4","Kxa4","Kc5","Kb3","Kd5","Kc3","Ke5","Kd3","Kf5","Ke3","Kg4","Ke4","Kg3","Kf5","Kh4","Kg6","Kg4"],
+          "playAs": "white"
+        },
+        {
+          "name": "King & Pawn vs King",
+          "moves": ["d4","d5","c4","dxc4","Nf3","Nf6","e3","Bg4","Bxc4","e6","Qb3","Qc8","Nbd2","Be7","O-O","O-O","Qc2","Nbd7","e4","c5","e5","Nd5","Nb3","cxd4","Nfxd4","Nc5","Nc6","Qc7","Bf4","Qg3","Qxg3","hxg3","Be2","b6","Rfd1","Bb7","Nb4","Rfd8","Bd6","Nxd6","Nxd6","Rac8","Nxb7","Rxc2","Nxd8","Rxb2","Nc6","Nd3","Rxd5","exd5","Nxf7","Kxf7","Rxd3","Ke7","Rd1","Ke6","Bf3","Bd6","Kf1","Rc2","Ra2","Rc7","Kg1","g6","Bd5+","Kd7","Bc4","Rc5","Rd1+","Kc7","Bh6","Bg3","hxg3","Rg5","Bf4+","Kb7","Bxg5"],
+          "playAs": "white"
+        }
+      ]
+    },
+    {
+      "id": "rook-endgames",
+      "name": "Rook Endgames",
+      "eco": "",
+      "difficulty": "hard",
+      "description": "Rook endgames are the most common type of endgame. Master these fundamental positions.",
+      "lines": [
+        {
+          "name": "Lucena Position",
+          "moves": ["e4","e5","Nf3","Nc6","Bb5","Nf6","O-O","Be7","Re1","O-O","c3","a6","Ba4","b5","Bb3","d6","h3","Na5","Bc2","c5","d4","Qc7","Nbd2","cxd4","cxd4","Nc6","Nb3","Nxd4","Nfxd4","exd4","Nxd4","Bd7","Bf4","Rfc8","Bd3","Qa5","Qd2","Be6","Nxe6","fxe6","Be4","Rc4","Bd5","Rac8","Bxc4","Rxc4","b3","Rc2","Qe3","Bb4","Rac1","Rxa2","Rc8+","Kf7","Qc1","Bd6","Rc7+","Ke8","Rxb7","Bxg3","fxg3","Qc5+","Qxc5","dxc5","Rc7","Rxb3","Rxc5","Rb1+","Kf2","Rb2+","Ke3","Rb3+","Kd4","Rb4+","Kd5","Rb5+","Kc6","Rxe5","Rd5","Re1","Kd6","c4","h5","Rd4","g5","c5+","Kxc5","Rd7","Re6+","Kd5","Kb6","Rxa6","Kb7","Ra4","Rxe5+","Kc6","Re6+","Kd7","Rxg6","Rf5","Rg7+","Kc6","Rxh7","Rxf2","Rh6+","Kc5","Rxh5+","Kb6","Rh6+","Ka5","Ra6+","Kb5","Re6","Rg2","g4","Rg3","Re5+","Kc6","Rg5","Kd6","Kc4","Ke6","Kd4","Kf6","Ke4","Kg6","Kf4","Kh6","Kg3","Re3+","Kf2","Re4","Rxg4"],
+          "playAs": "white"
+        }
+      ]
+    }
+  ]
+}
