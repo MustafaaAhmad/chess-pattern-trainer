@@ -1,0 +1,130 @@
+{
+  "puzzles": [
+    {
+      "id": "smothered-mate",
+      "name": "Smothered Mate",
+      "fen": "5rk1/1b3p1p/pp4p1/2bP4/5q2/2N2N2/PPQ2PPP/2KR3R w - - 0 1",
+      "moves": ["Ne7+"],
+      "playAs": "white",
+      "difficulty": "easy",
+      "hint": "Force the king into the corner with check, then look for a knight fork."
+    },
+    {
+      "id": "knight-fork",
+      "name": "Knight Fork",
+      "fen": "r3k3/ppp5/2n5/2b5/2P5/2N5/PP3PPP/R3K2R w KQ - 0 1",
+      "moves": ["Ne4"],
+      "playAs": "white",
+      "difficulty": "easy",
+      "hint": "Find a square where the knight attacks two pieces at once."
+    },
+    {
+      "id": "pin",
+      "name": "Pin to Win",
+      "fen": "rnbqk2r/pppp1ppp/5n2/1b2p3/2B1P3/2NP4/PPP2PPP/R1BQK1NR w KQkq - 0 4",
+      "moves": ["Bb5"],
+      "playAs": "white",
+      "difficulty": "easy",
+      "hint": "Pin the knight to the king with your bishop."
+    },
+    {
+      "id": "skewer",
+      "name": "Skewer",
+      "fen": "2kr3r/pp4pp/2n5/2b5/8/2N5/PPP2PPP/R3R1K1 w - - 0 1",
+      "moves": ["Re8+"],
+      "playAs": "white",
+      "difficulty": "medium",
+      "hint": "Attack the king along the rank to win material behind it."
+    },
+    {
+      "id": "back-rank",
+      "name": "Back Rank Mate",
+      "fen": "3r2k1/pp3ppp/8/8/8/8/PP3PPP/R4RK1 w - - 0 1",
+      "moves": ["Rd1"],
+      "playAs": "white",
+      "difficulty": "medium",
+      "hint": "Double your rooks on the d-file to exploit the back rank weakness."
+    },
+    {
+      "id": "discovered",
+      "name": "Discovered Attack",
+      "fen": "r1bq1rk1/pppp1ppp/2n2n2/2b5/2B1P3/2NP4/PPP2PPP/R1BQ1RK1 w - - 0 6",
+      "moves": ["e5"],
+      "playAs": "white",
+      "difficulty": "medium",
+      "hint": "Advance the pawn to uncover an attack on the bishop."
+    },
+    {
+      "id": "double-check",
+      "name": "Double Check",
+      "fen": "r1b1kb1r/pppp1ppp/2n5/4N3/2B1q3/8/PPP2PPP/R1BQK2R w KQkq - 0 7",
+      "moves": ["Nf7"],
+      "playAs": "white",
+      "difficulty": "medium",
+      "hint": "Deliver a double check — the king must move."
+    },
+    {
+      "id": "deflection",
+      "name": "Deflection",
+      "fen": "r2q1rk1/ppp2ppp/2n5/2b1p3/2B1P3/2NP4/PPP2PPP/R1BQ1RK1 w - - 0 7",
+      "moves": ["Bxh7+"],
+      "playAs": "white",
+      "difficulty": "medium",
+      "hint": "Sacrifice to deflect the defender of a key square."
+    },
+    {
+      "id": "greek-gift",
+      "name": "Greek Gift Sacrifice",
+      "fen": "r1b2rk1/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP4/PPP2PPP/R1BQ1RK1 w - - 0 7",
+      "moves": ["Bxh7+"],
+      "playAs": "white",
+      "difficulty": "hard",
+      "hint": "The classic bishop sacrifice on h7 to open the king's defenses."
+    },
+    {
+      "id": "clearance",
+      "name": "Clearance Sacrifice",
+      "fen": "r2q1rk1/ppp2ppp/2n5/3p4/2bPn3/2N5/PPP2PPP/R1BQR1K1 w - - 0 1",
+      "moves": ["Rxe4"],
+      "playAs": "white",
+      "difficulty": "hard",
+      "hint": "Sacrifice the rook to clear the diagonal for your bishop."
+    },
+    {
+      "id": "zugzwang",
+      "name": "Zugzwang",
+      "fen": "8/8/8/8/4k3/8/6K1/8 b - - 0 1",
+      "moves": ["Ke5"],
+      "playAs": "black",
+      "difficulty": "hard",
+      "hint": "Black must move but every move loses the opposition."
+    },
+    {
+      "id": "zwischenzug",
+      "name": "Intermediate Move",
+      "fen": "r1bq1rk1/pp3ppp/2n5/2pp4/3P4/2N1PN2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "moves": ["d5"],
+      "playAs": "white",
+      "difficulty": "hard",
+      "hint": "Don't capture immediately — insert a pawn advance first."
+    },
+    {
+      "id": "anastasia",
+      "name": "Anastasia's Mate",
+      "fen": "r4rk1/ppp2ppp/2n5/8/8/1b6/PP3PPP/RNB1R1K1 w - - 0 1",
+      "moves": ["Re8+"],
+      "playAs": "white",
+      "difficulty": "medium",
+      "hint": "Use the rook to drive the king to the edge where the knight can deliver mate."
+    },
+    {
+      "id": "arabian",
+      "name": "Arabian Mate",
+      "fen": "6k1/5p2/5N1p/8/8/8/8/6RK w - - 0 1",
+      "moves": ["Rh1#"],
+      "playAs": "white",
+      "difficulty": "easy",
+      "hint": "Rook and knight working together in the corner."
+    }
+  ]
+}
