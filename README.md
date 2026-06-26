@@ -4,7 +4,7 @@ Static chess pattern recognition and spatial memory trainer. 100% client-side â€
 
 ## Features
 
-- **5 game modes**: Position Recall, Board Reconstruction, Change Detection, Missing Piece, Blindfold Trainer
+- **5 game modes**: Position Recall, Board Reconstruction, Missing Piece, Blindfold Trainer, Openings Trainer
 - **1000 chess positions** generated from real game patterns, openings, and endgames
 - **Auto-generated questions** from any FEN position
 - **Spaced repetition** (SM-0 algorithm) for missed positions
