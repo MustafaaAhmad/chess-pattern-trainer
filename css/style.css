@@ -255,7 +255,8 @@ input { font-family: inherit; font-size: inherit; }
 .square-light { background: var(--color-light-square); }
 .square-dark { background: var(--color-dark-square); }
 
-.square svg {
+.square svg,
+.square img {
   width: 88%;
   height: 88%;
   pointer-events: none;
@@ -449,7 +450,8 @@ input { font-family: inherit; font-size: inherit; }
   border-color: var(--color-primary);
 }
 
-.palette-piece svg {
+.palette-piece svg,
+.palette-piece img {
   width: 80%;
   height: 80%;
   pointer-events: none;
