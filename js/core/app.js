@@ -18,7 +18,6 @@ var ChessTrainer = window.ChessTrainer || {};
     RECALL: 'recall',
     RESULTS: 'results',
     RECONSTRUCT: 'reconstruct',
-    CHANGE: 'change',
     STATS: 'stats',
     REVIEW: 'review'
   };
@@ -33,7 +32,6 @@ var ChessTrainer = window.ChessTrainer || {};
     this.studyTimer = new Timer(document.getElementById('study-timer'));
     this.recallTimer = new Timer(document.getElementById('recall-timer'));
     this.reconstructTimer = new Timer(document.getElementById('reconstruct-timer'));
-    this.changeTimer = new Timer(document.getElementById('change-timer'));
     this.missingTimer = new Timer(document.getElementById('missing-timer'));
     this.blindfoldTimer = new Timer(document.getElementById('blindfold-timer'));
     this.selectedPalettePiece = null;
@@ -67,13 +65,6 @@ var ChessTrainer = window.ChessTrainer || {};
         recallTime: 0,
         ModeClass: ns.Modes.Reconstruct,
         screens: ['study', 'reconstruct', 'results']
-      },
-      change: {
-        name: 'Change Detection',
-        studyTimeA: 10,
-        studyTimeB: 3,
-        ModeClass: ns.Modes.Change,
-        screens: ['change', 'results']
       },
       missing: {
         name: 'Missing Piece',
@@ -283,10 +274,6 @@ var ChessTrainer = window.ChessTrainer || {};
       self.onReconstructClear();
     });
 
-    document.getElementById('btn-change-submit').addEventListener('click', function () {
-      self.onChangeSubmit();
-    });
-
     document.getElementById('btn-missing-submit').addEventListener('click', function () {
       self.onMissingSubmit();
     });
@@ -358,12 +345,11 @@ var ChessTrainer = window.ChessTrainer || {};
     switch (e.key) {
       case '1': this.selectMode('recall'); break;
       case '2': this.selectMode('reconstruct'); break;
-      case '3': this.selectMode('change'); break;
-      case '4': this.selectMode('missing'); break;
-      case '5': this.selectMode('blindfold'); break;
-      case '6': this.selectMode('openings'); break;
-      case '7': this.selectMode('midgame'); break;
-      case '8': this.selectMode('endgame'); break;
+      case '3': this.selectMode('missing'); break;
+      case '4': this.selectMode('blindfold'); break;
+      case '5': this.selectMode('openings'); break;
+      case '6': this.selectMode('midgame'); break;
+      case '7': this.selectMode('endgame'); break;
       case 'd':
       case 'D':
         ns.Theme.toggle();
@@ -399,11 +385,6 @@ var ChessTrainer = window.ChessTrainer || {};
     var self = this;
     this.currentMode = modeId;
     this.isDailyChallenge = false;
-
-    if (modeId === 'change') {
-      this.startChangeMode();
-      return;
-    }
 
     if (modeId === 'openings') {
       this.showOpeningsList();
@@ -799,12 +780,7 @@ var ChessTrainer = window.ChessTrainer || {};
       return;
     }
     this.currentPosition = pos;
-
-    if (pos.fenB) {
-      this.startChangeMode();
-    } else {
-      this.selectMode('recall');
-    }
+    this.selectMode('recall');
   };
 
   App.prototype.showStatsScreen = function () {
@@ -996,123 +972,6 @@ var ChessTrainer = window.ChessTrainer || {};
     });
 
     this.showScreen('results');
-  };
-
-  App.prototype.startChangeMode = function () {
-    var self = this;
-    if (this.positions.length < 2) {
-      Components.showToast('Need at least 2 positions for Change Detection', 'error');
-      return;
-    }
-
-    var idxA = Math.floor(Math.random() * this.positions.length);
-    var posA = this.positions[idxA];
-    var idxB;
-    do {
-      idxB = Math.floor(Math.random() * this.positions.length);
-    } while (idxB === idxA && this.positions.length > 1);
-    var posB = this.positions[idxB];
-
-    this.currentMode = 'change';
-    this.isDailyChallenge = false;
-    this.currentPosition = posA;
-
-    this.modeInstance = new ns.Modes.Change(posA, posB);
-
-    var boardA = FEN.fenToBoardArray(posA.fen);
-    var container = document.getElementById('change-board-container');
-    Renderer.renderBoard(container, boardA, { showPieces: true, showCoords: true });
-    document.getElementById('change-question-text').textContent = 'Study Position A';
-
-    this.showScreen('change');
-    this.changeTimer.reset();
-    this.changeTimer.start(10, function () {
-      self.onChangeStudyAEnd();
-    });
-  };
-
-  App.prototype.onChangeStudyAEnd = function () {
-    var self = this;
-    var posB = this.modeInstance.positionB;
-    var boardB = FEN.fenToBoardArray(posB.fen);
-    var container = document.getElementById('change-board-container');
-
-    Renderer.renderBoard(container, boardB, { showPieces: true, showCoords: true });
-    document.getElementById('change-question-text').textContent = 'Position B';
-
-    this.showScreen('change');
-    this.changeTimer.reset();
-    this.changeTimer.start(3, function () {
-      self.onChangeStudyBEnd();
-    });
-  };
-
-  App.prototype.onChangeStudyBEnd = function () {
-    var container = document.getElementById('change-board-container');
-    Renderer.renderBoard(container, null, { showPieces: false, showCoords: true, emptyBoard: true });
-
-    this.showScreen('change');
-    this.showChangeQuestion();
-  };
-
-  App.prototype.showChangeQuestion = function () {
-    var modeInst = this.modeInstance;
-    var q = modeInst.getCurrentQuestion();
-    document.getElementById('change-question-text').textContent = q ? q.question : 'No more questions.';
-
-    var inputArea = document.getElementById('change-input-area');
-    inputArea.innerHTML = '';
-    var self = this;
-
-    if (q && q.type === 'square-recall') {
-      var input = document.createElement('input');
-      input.type = 'text';
-      input.placeholder = 'e.g. e4';
-      input.style.cssText = 'padding:10px 16px;border-radius:8px;border:2px solid rgba(0,0,0,0.2);width:200px;text-align:center;font-size:1.1rem;';
-      inputArea.appendChild(input);
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') self.onChangeSubmit();
-      });
-    } else if (q && q.type === 'boolean') {
-      var yesBtn = document.createElement('button');
-      yesBtn.textContent = 'Yes';
-      yesBtn.className = 'btn btn-secondary';
-      yesBtn.style.marginRight = '8px';
-      yesBtn.addEventListener('click', function () { self.changeAnswerValue = 'yes'; self.onChangeSubmit(); });
-      inputArea.appendChild(yesBtn);
-      var noBtn = document.createElement('button');
-      noBtn.textContent = 'No';
-      noBtn.className = 'btn btn-secondary';
-      noBtn.addEventListener('click', function () { self.changeAnswerValue = 'no'; self.onChangeSubmit(); });
-      inputArea.appendChild(noBtn);
-    }
-  };
-
-  App.prototype.onChangeSubmit = function () {
-    var modeInst = this.modeInstance;
-    var q = modeInst.getCurrentQuestion();
-    if (!q) return;
-
-    var answer;
-    var input = document.querySelector('#change-input-area input');
-    if (input) {
-      answer = input.value.trim();
-    } else {
-      answer = this.changeAnswerValue || '';
-    }
-
-    if (!answer) {
-      Components.showToast('Please enter an answer', 'error');
-      return;
-    }
-
-    modeInst.submitAnswer(answer);
-
-    if (modeInst.isComplete()) {
-      this.showResults();
-    } else {
-      this.showChangeQuestion();
-    }
   };
 
   App.prototype.startMissingStudy = function () {

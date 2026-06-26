@@ -38,11 +38,6 @@
             <h2>Board Reconstruction</h2>
             <p>Rebuild the entire position from memory on an empty board.</p>
           </div>
-          <div class="mode-card" data-mode="change" tabindex="0" role="button" aria-label="Change Detection mode">
-            <div class="mode-card-icon">🔍</div>
-            <h2>Change Detection</h2>
-            <p>Spot what changed between two rapid-fire positions.</p>
-          </div>
           <div class="mode-card" data-mode="missing" tabindex="0" role="button" aria-label="Missing Piece mode">
             <div class="mode-card-icon">❓</div>
             <h2>Missing Piece</h2>
@@ -132,20 +127,6 @@
         <div class="recall-buttons">
           <button id="btn-reconstruct-submit" class="btn btn-primary">Submit Reconstruction</button>
           <button id="btn-reconstruct-clear" class="btn btn-secondary">Clear Board</button>
-        </div>
-      </section>
-
-      <!-- CHANGE DETECTION PHASE -->
-      <section id="screen-change" class="screen">
-        <div class="study-header">
-          <h2>Change Detection</h2>
-          <div id="change-timer" class="timer">--</div>
-        </div>
-        <div id="change-board-container" class="board-container"></div>
-        <div id="change-question-area" class="recall-question-area">
-          <p id="change-question-text" class="recall-question-text"></p>
-          <div id="change-input-area" class="recall-input-area"></div>
-          <button id="btn-change-submit" class="btn btn-primary">Submit</button>
         </div>
       </section>
 
@@ -296,7 +277,6 @@
   <script src="js/engine/daily.js"></script>
   <script src="js/engine/modes/recall.js"></script>
   <script src="js/engine/modes/reconstruct.js"></script>
-  <script src="js/engine/modes/change.js"></script>
   <script src="js/engine/modes/missing.js"></script>
   <script src="js/engine/modes/blindfold.js"></script>
   <script src="js/engine/modes/openings.js"></script>
