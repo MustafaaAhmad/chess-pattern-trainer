@@ -44,6 +44,14 @@ var ChessTrainer = window.ChessTrainer || {};
     this.selectedOpeningsSquare = null;
     this.openingsLegalMoves = [];
 
+    this.midgamePuzzles = [];
+    this.endgamePuzzles = [];
+    this.puzzleInstance = null;
+    this.puzzleIndex = 0;
+    this.puzzleScores = [];
+    this.selectedPuzzleSquare = null;
+    this.puzzleLegalMoves = [];
+
     var self = this;
     this.modeConfig = {
       recall: {
@@ -87,6 +95,20 @@ var ChessTrainer = window.ChessTrainer || {};
         recallTime: 0,
         ModeClass: ns.Modes.Openings,
         screens: ['openings', 'results']
+      },
+      midgame: {
+        name: 'Midgame Tactics',
+        studyTime: 0,
+        recallTime: 0,
+        ModeClass: ns.Modes.Midgame,
+        screens: ['midgame']
+      },
+      endgame: {
+        name: 'Endgame Trainer',
+        studyTime: 0,
+        recallTime: 0,
+        ModeClass: ns.Modes.Endgame,
+        screens: ['endgame']
       }
     };
   }
@@ -97,6 +119,8 @@ var ChessTrainer = window.ChessTrainer || {};
     this.bindEvents();
     this.loadPositions();
     this.loadOpenings();
+    this.loadMidgamePuzzles();
+    this.loadEndgamePuzzles();
 
     document.getElementById('shortcuts-hint').addEventListener('click', function () {
       document.getElementById('shortcuts-modal').classList.remove('hidden');
@@ -149,6 +173,46 @@ var ChessTrainer = window.ChessTrainer || {};
     };
     xhr.onerror = function () {
       self.openingsData = [];
+    };
+    xhr.send();
+  };
+
+  App.prototype.loadMidgamePuzzles = function () {
+    var self = this;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/midgames.json', true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          self.midgamePuzzles = data.puzzles || data || [];
+        } catch (e) {
+          self.midgamePuzzles = [];
+        }
+      }
+    };
+    xhr.onerror = function () {
+      self.midgamePuzzles = [];
+    };
+    xhr.send();
+  };
+
+  App.prototype.loadEndgamePuzzles = function () {
+    var self = this;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/endgames.json', true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          self.endgamePuzzles = data.puzzles || data || [];
+        } catch (e) {
+          self.endgamePuzzles = [];
+        }
+      }
+    };
+    xhr.onerror = function () {
+      self.endgamePuzzles = [];
     };
     xhr.send();
   };
@@ -239,6 +303,32 @@ var ChessTrainer = window.ChessTrainer || {};
       self.onOpeningsSkip();
     });
 
+    document.getElementById('btn-midgame-hint').addEventListener('click', function () {
+      self.onPuzzleHint('midgame');
+    });
+    document.getElementById('btn-midgame-skip').addEventListener('click', function () {
+      self.onPuzzleSkip('midgame');
+    });
+    document.getElementById('btn-midgame-next').addEventListener('click', function () {
+      self.nextPuzzle('midgame');
+    });
+    document.getElementById('btn-midgame-back').addEventListener('click', function () {
+      self.showScreen(STATE.MENU);
+    });
+
+    document.getElementById('btn-endgame-hint').addEventListener('click', function () {
+      self.onPuzzleHint('endgame');
+    });
+    document.getElementById('btn-endgame-skip').addEventListener('click', function () {
+      self.onPuzzleSkip('endgame');
+    });
+    document.getElementById('btn-endgame-next').addEventListener('click', function () {
+      self.nextPuzzle('endgame');
+    });
+    document.getElementById('btn-endgame-back').addEventListener('click', function () {
+      self.showScreen(STATE.MENU);
+    });
+
     document.getElementById('difficulty-select').addEventListener('change', function () {
       var settings = Storage.getSettings();
       settings.difficulty = this.value;
@@ -267,6 +357,8 @@ var ChessTrainer = window.ChessTrainer || {};
       case '4': this.selectMode('missing'); break;
       case '5': this.selectMode('blindfold'); break;
       case '6': this.selectMode('openings'); break;
+      case '7': this.selectMode('midgame'); break;
+      case '8': this.selectMode('endgame'); break;
       case 'd':
       case 'D':
         ns.Theme.toggle();
@@ -310,6 +402,16 @@ var ChessTrainer = window.ChessTrainer || {};
 
     if (modeId === 'openings') {
       this.showOpeningsList();
+      return;
+    }
+
+    if (modeId === 'midgame') {
+      this.startPuzzleMode('midgame');
+      return;
+    }
+
+    if (modeId === 'endgame') {
+      this.startPuzzleMode('endgame');
       return;
     }
 
@@ -641,6 +743,16 @@ var ChessTrainer = window.ChessTrainer || {};
 
     if (modeId === 'openings') {
       self.showOpeningsList();
+      return;
+    }
+
+    if (modeId === 'midgame') {
+      self.nextPuzzle('midgame');
+      return;
+    }
+
+    if (modeId === 'endgame') {
+      self.nextPuzzle('endgame');
       return;
     }
 
@@ -1417,6 +1529,227 @@ var ChessTrainer = window.ChessTrainer || {};
     });
 
     document.getElementById('btn-results-review').classList.add('hidden');
+    this.showScreen('results');
+  };
+
+  App.prototype.startPuzzleMode = function (modeId) {
+    var puzzles = modeId === 'midgame' ? this.midgamePuzzles : this.endgamePuzzles;
+    if (!puzzles || puzzles.length === 0) {
+      Components.showToast('Puzzles not loaded yet. Try again.', 'error');
+      return;
+    }
+
+    this.currentMode = modeId;
+    this.isDailyChallenge = false;
+    this.puzzleIndex = 0;
+    this.puzzleScores = [];
+    this.selectedPuzzleSquare = null;
+    this.puzzleLegalMoves = [];
+
+    this.loadPuzzle(modeId, 0);
+  };
+
+  App.prototype.loadPuzzle = function (modeId, index) {
+    var puzzles = modeId === 'midgame' ? this.midgamePuzzles : this.endgamePuzzles;
+    if (index >= puzzles.length) {
+      this.showPuzzleResults(modeId);
+      return;
+    }
+
+    this.puzzleIndex = index;
+    var puzzle = puzzles[index];
+    var ModeClass = modeId === 'midgame' ? ns.Modes.Midgame : ns.Modes.Endgame;
+    this.puzzleInstance = new ModeClass(puzzle);
+    this.puzzleInstance.setup();
+    this.selectedPuzzleSquare = null;
+    this.puzzleLegalMoves = [];
+
+    var nameEl = document.getElementById(modeId + '-puzzle-name');
+    var hintEl = document.getElementById(modeId + '-hint-text');
+    var feedbackEl = document.getElementById(modeId + '-feedback');
+    var nextBtn = document.getElementById('btn-' + modeId + '-next');
+
+    nameEl.textContent = (index + 1) + '. ' + puzzle.name;
+    hintEl.classList.add('hidden');
+    feedbackEl.classList.add('hidden');
+    nextBtn.classList.add('hidden');
+
+    this.renderPuzzleBoard(modeId);
+    this.updatePuzzleProgress(modeId);
+    this.showScreen(modeId);
+  };
+
+  App.prototype.renderPuzzleBoard = function (modeId) {
+    var self = this;
+    var modeInst = this.puzzleInstance;
+    var container = document.getElementById(modeId + '-board-container');
+    var board = modeInst.getBoardForRender();
+
+    Renderer.renderBoard(container, board, {
+      showPieces: true,
+      showCoords: true,
+      interactive: true,
+      onSquareClick: function (sqData) {
+        self.onPuzzleSquareClick(modeId, sqData);
+      }
+    });
+
+    if (this.selectedPuzzleSquare) {
+      var squares = container.querySelectorAll('.square');
+      var selSquare = this.selectedPuzzleSquare;
+      var legalSet = {};
+      this.puzzleLegalMoves.forEach(function (sq) { legalSet[sq] = true; });
+
+      squares.forEach(function (el) {
+        var sqName = el.dataset.square;
+        if (sqName === selSquare) {
+          el.classList.add('selected-piece');
+        }
+        if (legalSet[sqName]) {
+          el.classList.add('legal-move');
+          var p = modeInst.chess.get(sqName);
+          if (p) el.classList.add('has-piece');
+        }
+      });
+    }
+  };
+
+  App.prototype.onPuzzleSquareClick = function (modeId, sqData) {
+    var modeInst = this.puzzleInstance;
+    if (modeInst.attempted) return;
+
+    var square = sqData.square;
+
+    if (this.selectedPuzzleSquare === null) {
+      var piece = modeInst.chess.get(square);
+      if (!piece) return;
+      var turn = modeInst.chess.turn();
+      if (piece.color !== turn) return;
+
+      this.selectedPuzzleSquare = square;
+      this.puzzleLegalMoves = modeInst.getLegalMoves(square);
+      this.renderPuzzleBoard(modeId);
+    } else {
+      if (square === this.selectedPuzzleSquare) {
+        this.selectedPuzzleSquare = null;
+        this.puzzleLegalMoves = [];
+        this.renderPuzzleBoard(modeId);
+        return;
+      }
+
+      var isLegal = false;
+      for (var i = 0; i < this.puzzleLegalMoves.length; i++) {
+        if (this.puzzleLegalMoves[i] === square) {
+          isLegal = true;
+          break;
+        }
+      }
+
+      if (isLegal) {
+        var result = modeInst.submitMove(this.selectedPuzzleSquare, square, 'q');
+        this.selectedPuzzleSquare = null;
+        this.puzzleLegalMoves = [];
+        this.renderPuzzleBoard(modeId);
+        this.showPuzzleFeedback(modeId, result);
+      } else {
+        var clickedPiece = modeInst.chess.get(square);
+        if (clickedPiece && clickedPiece.color === modeInst.chess.turn()) {
+          this.selectedPuzzleSquare = square;
+          this.puzzleLegalMoves = modeInst.getLegalMoves(square);
+          this.renderPuzzleBoard(modeId);
+        } else {
+          this.selectedPuzzleSquare = null;
+          this.puzzleLegalMoves = [];
+          this.renderPuzzleBoard(modeId);
+        }
+      }
+    }
+  };
+
+  App.prototype.showPuzzleFeedback = function (modeId, result) {
+    var feedbackEl = document.getElementById(modeId + '-feedback');
+    var nextBtn = document.getElementById('btn-' + modeId + '-next');
+
+    if (result && result.correct) {
+      feedbackEl.textContent = 'Correct!';
+      feedbackEl.className = 'puzzle-feedback correct';
+      this.puzzleScores.push(1);
+    } else {
+      feedbackEl.textContent = result ? 'Wrong. Expected: ' + result.expected : 'Invalid move';
+      feedbackEl.className = 'puzzle-feedback wrong';
+      this.puzzleScores.push(0);
+    }
+
+    feedbackEl.classList.remove('hidden');
+    nextBtn.classList.remove('hidden');
+    this.updatePuzzleProgress(modeId);
+  };
+
+  App.prototype.onPuzzleHint = function (modeId) {
+    var puzzles = modeId === 'midgame' ? this.midgamePuzzles : this.endgamePuzzles;
+    var puzzle = puzzles[this.puzzleIndex];
+    if (!puzzle) return;
+
+    var hintEl = document.getElementById(modeId + '-hint-text');
+    hintEl.textContent = '\uD83D\uDCA1 ' + puzzle.hint;
+    hintEl.classList.remove('hidden');
+  };
+
+  App.prototype.onPuzzleSkip = function (modeId) {
+    var modeInst = this.puzzleInstance;
+    if (modeInst.attempted) return;
+
+    var expected = modeInst.skip();
+    var feedbackEl = document.getElementById(modeId + '-feedback');
+    var nextBtn = document.getElementById('btn-' + modeId + '-next');
+
+    feedbackEl.textContent = 'Skipped. Answer: ' + expected;
+    feedbackEl.className = 'puzzle-feedback skipped';
+    feedbackEl.classList.remove('hidden');
+    nextBtn.classList.remove('hidden');
+    this.puzzleScores.push(0);
+    this.updatePuzzleProgress(modeId);
+  };
+
+  App.prototype.nextPuzzle = function (modeId) {
+    this.loadPuzzle(modeId, this.puzzleIndex + 1);
+  };
+
+  App.prototype.updatePuzzleProgress = function (modeId) {
+    var puzzles = modeId === 'midgame' ? this.midgamePuzzles : this.endgamePuzzles;
+    var el = document.getElementById(modeId + '-progress');
+    var correct = 0;
+    this.puzzleScores.forEach(function (s) { if (s === 1) correct++; });
+    el.textContent = correct + '/' + this.puzzleScores.length + ' correct';
+  };
+
+  App.prototype.showPuzzleResults = function (modeId) {
+    var self = this;
+    var puzzles = modeId === 'midgame' ? this.midgamePuzzles : this.endgamePuzzles;
+    var total = this.puzzleScores.length;
+    var correct = 0;
+    this.puzzleScores.forEach(function (s) { if (s === 1) correct++; });
+    var accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+    var resultsEl = document.getElementById('results-summary');
+    resultsEl.innerHTML = '<div class="results-accuracy" style="color:' + (accuracy >= 70 ? 'var(--color-success)' : 'var(--color-error)') + '">' +
+      accuracy + '%</div>' +
+      '<div class="results-details">' + correct + ' / ' + total + ' correct</div>';
+
+    var listEl = document.getElementById('results-list');
+    listEl.innerHTML = '';
+    puzzles.forEach(function (p, i) {
+      var score = i < self.puzzleScores.length ? self.puzzleScores[i] : 0;
+      var item = document.createElement('div');
+      item.className = 'result-item ' + (score >= 1 ? 'correct' : 'incorrect');
+      item.innerHTML = '<span>' + (i + 1) + '. ' + p.name + '</span>' +
+        '<span class="result-status ' + (score >= 1 ? 'correct' : 'incorrect') + '">' +
+        (score >= 1 ? '\u2713' : '\u2717') + '</span>';
+      listEl.appendChild(item);
+    });
+
+    document.getElementById('btn-results-review').classList.add('hidden');
+    document.getElementById('results-board-container').innerHTML = '';
     this.showScreen('results');
   };
 

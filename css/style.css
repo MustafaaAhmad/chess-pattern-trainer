@@ -742,6 +742,54 @@ input { font-family: inherit; font-size: inherit; }
   border-radius: 50%;
 }
 
+/* --- Puzzle Mode (Midgame / Endgame) --- */
+.puzzle-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 4px 0;
+}
+
+.puzzle-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 8px;
+  font-style: italic;
+  max-width: var(--small-board-size);
+}
+
+.puzzle-feedback {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 4px 0;
+  max-width: var(--small-board-size);
+  width: 100%;
+}
+.puzzle-feedback.correct { background: rgba(46,204,113,0.15); color: var(--color-success); }
+.puzzle-feedback.wrong { background: rgba(231,76,60,0.15); color: var(--color-error); }
+.puzzle-feedback.skipped { background: rgba(243,156,18,0.15); color: var(--color-warning); }
+
+.puzzle-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0;
+  max-width: var(--small-board-size);
+  width: 100%;
+}
+
+.puzzle-progress {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: 8px;
+}
+
 /* --- Utility --- */
 .text-center { text-align: center; }
 .mt-8 { margin-top: 8px; }
