@@ -270,7 +270,14 @@ var ChessTrainer = window.ChessTrainer || {};
         if (this.state === STATE.RESULTS) this.nextPosition();
         break;
       case 'Enter':
-        if (this.state === STATE.RECALL) this.onRecallSubmit();
+        if (this.state === STATE.RECALL) {
+          var submitBtn = document.getElementById('btn-recall-submit');
+          if (!submitBtn.classList.contains('hidden')) {
+            this.onRecallSubmit();
+          } else {
+            this.onRecallNext();
+          }
+        }
         break;
     }
   };
@@ -416,7 +423,6 @@ var ChessTrainer = window.ChessTrainer || {};
     var modeInst = this.modeInstance;
     var q = modeInst.getCurrentQuestion();
     var total = modeInst.getQuestionCount();
-    var answered = this.currentMode === 'recall' ? modeInst.scores.length : 0;
 
     document.getElementById('recall-progress').textContent = (modeInst.currentIndex + 1) + ' / ' + total;
     document.getElementById('recall-question-text').textContent = q ? q.question : 'No more questions.';
@@ -496,9 +502,17 @@ var ChessTrainer = window.ChessTrainer || {};
       document.getElementById('btn-recall-next').textContent = 'Next Question';
     }
     document.getElementById('btn-recall-next').classList.remove('hidden');
+
+    if (isCorrect && !modeInst.isComplete()) {
+      self._autoAdvanceTimer = setTimeout(function () { self._autoAdvanceTimer = null; self.onRecallNext(); }, 800);
+    }
   };
 
   App.prototype.onRecallNext = function () {
+    if (this._autoAdvanceTimer) {
+      clearTimeout(this._autoAdvanceTimer);
+      this._autoAdvanceTimer = null;
+    }
     var modeInst = this.modeInstance;
     var feedback = document.querySelector('#recall-question-area > div:not(.recall-question-text):not(.recall-input-area):not(.recall-buttons)');
     if (feedback) feedback.remove();
