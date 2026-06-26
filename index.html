@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Chess Pattern Trainer</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="topbar-left">
+        <h1 class="logo">♔ Pattern Trainer</h1>
+        <span id="streak-badge" class="streak-badge hidden"></span>
+      </div>
+      <div class="topbar-right">
+        <select id="difficulty-select" class="difficulty-select" aria-label="Difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle dark mode (D)">☀️</button>
+        <span id="shortcuts-hint" class="shortcuts-hint" title="Keyboard shortcuts">?</span>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <!-- MODE SELECTION SCREEN -->
+      <section id="screen-menu" class="screen active">
+        <div class="mode-grid">
+          <div class="mode-card" data-mode="recall" tabindex="0" role="button" aria-label="Position Recall mode">
+            <div class="mode-card-icon">🧠</div>
+            <h2>Position Recall</h2>
+            <p>Study a position, then recall piece locations from memory.</p>
+          </div>
+          <div class="mode-card" data-mode="reconstruct" tabindex="0" role="button" aria-label="Board Reconstruction mode">
+            <div class="mode-card-icon">🏗️</div>
+            <h2>Board Reconstruction</h2>
+            <p>Rebuild the entire position from memory on an empty board.</p>
+          </div>
+          <div class="mode-card" data-mode="change" tabindex="0" role="button" aria-label="Change Detection mode">
+            <div class="mode-card-icon">🔍</div>
+            <h2>Change Detection</h2>
+            <p>Spot what changed between two rapid-fire positions.</p>
+          </div>
+          <div class="mode-card" data-mode="missing" tabindex="0" role="button" aria-label="Missing Piece mode">
+            <div class="mode-card-icon">❓</div>
+            <h2>Missing Piece</h2>
+            <p>Identify which piece was removed from the position.</p>
+          </div>
+          <div class="mode-card" data-mode="blindfold" tabindex="0" role="button" aria-label="Blindfold Trainer mode">
+            <div class="mode-card-icon">🎭</div>
+            <h2>Blindfold Trainer</h2>
+            <p>Visualize the board without seeing it. Advanced.</p>
+          </div>
+        </div>
+        <div class="menu-extra">
+          <button id="btn-daily" class="btn btn-primary">Daily Challenge</button>
+          <button id="btn-review" class="btn btn-secondary">Review Missed</button>
+          <button id="btn-stats" class="btn btn-secondary">My Stats</button>
+        </div>
+      </section>
+
+      <!-- STUDY PHASE -->
+      <section id="screen-study" class="screen">
+        <div class="study-header">
+          <h2 id="study-position-name"></h2>
+          <div id="study-timer" class="timer">--</div>
+        </div>
+        <div id="study-board-container" class="board-container"></div>
+        <div class="study-footer">
+          <button id="btn-study-skip" class="btn btn-secondary">Skip to Recall</button>
+        </div>
+      </section>
+
+      <!-- RECALL PHASE -->
+      <section id="screen-recall" class="screen">
+        <div class="recall-header">
+          <h2 id="recall-mode-label">Recall Phase</h2>
+          <div id="recall-timer" class="timer">--</div>
+          <div class="recall-progress" id="recall-progress">0 / 0</div>
+        </div>
+        <div id="recall-board-container" class="board-container board-container--small"></div>
+        <div id="recall-question-area" class="recall-question-area">
+          <p id="recall-question-text" class="recall-question-text"></p>
+          <div id="recall-input-area" class="recall-input-area"></div>
+          <div class="recall-buttons">
+            <button id="btn-recall-submit" class="btn btn-primary">Submit</button>
+            <button id="btn-recall-next" class="btn btn-secondary hidden">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS PHASE -->
+      <section id="screen-results" class="screen">
+        <h2>Results</h2>
+        <div id="results-board-container" class="board-container board-container--small"></div>
+        <div id="results-summary" class="results-summary"></div>
+        <div id="results-list" class="results-list"></div>
+        <div class="results-actions">
+          <button id="btn-results-next" class="btn btn-primary">Next Position</button>
+          <button id="btn-results-menu" class="btn btn-secondary">Back to Menu</button>
+          <button id="btn-results-review" class="btn btn-secondary hidden">Review This Position</button>
+        </div>
+      </section>
+
+      <!-- RECONSTRUCTION PHASE -->
+      <section id="screen-reconstruct" class="screen">
+        <div class="recall-header">
+          <h2>Reconstruction Phase</h2>
+          <div id="reconstruct-timer" class="timer">--</div>
+        </div>
+        <div class="reconstruct-layout">
+          <div id="reconstruct-board-container" class="board-container board-container--small"></div>
+          <div id="piece-palette" class="piece-palette"></div>
+        </div>
+        <div class="recall-buttons">
+          <button id="btn-reconstruct-submit" class="btn btn-primary">Submit Reconstruction</button>
+          <button id="btn-reconstruct-clear" class="btn btn-secondary">Clear Board</button>
+        </div>
+      </section>
+
+      <!-- CHANGE DETECTION PHASE -->
+      <section id="screen-change" class="screen">
+        <div class="study-header">
+          <h2>Change Detection</h2>
+          <div id="change-timer" class="timer">--</div>
+        </div>
+        <div id="change-board-container" class="board-container"></div>
+        <div id="change-question-area" class="recall-question-area">
+          <p id="change-question-text" class="recall-question-text"></p>
+          <div id="change-input-area" class="recall-input-area"></div>
+          <button id="btn-change-submit" class="btn btn-primary">Submit</button>
+        </div>
+      </section>
+
+      <!-- MISSING PIECE PHASE -->
+      <section id="screen-missing" class="screen">
+        <div class="recall-header">
+          <h2>Missing Piece</h2>
+          <div id="missing-timer" class="timer">--</div>
+        </div>
+        <div id="missing-board-container" class="board-container board-container--small"></div>
+        <div id="missing-question-area" class="recall-question-area">
+          <p id="missing-question-text" class="recall-question-text"></p>
+          <div id="missing-input-area" class="recall-input-area"></div>
+          <button id="btn-missing-submit" class="btn btn-primary">Submit</button>
+        </div>
+      </section>
+
+      <!-- BLINDFOLD PHASE -->
+      <section id="screen-blindfold" class="screen">
+        <div class="recall-header">
+          <h2>Blindfold Trainer</h2>
+          <div id="blindfold-timer" class="timer">--</div>
+        </div>
+        <div id="blindfold-question-area" class="recall-question-area">
+          <p id="blindfold-question-text" class="recall-question-text"></p>
+          <div id="blindfold-input-area" class="recall-input-area"></div>
+          <button id="btn-blindfold-submit" class="btn btn-primary">Submit</button>
+        </div>
+      </section>
+
+      <!-- STATS SCREEN -->
+      <section id="screen-stats" class="screen">
+        <h2>My Stats</h2>
+        <div id="stats-container" class="stats-container"></div>
+        <button id="btn-stats-back" class="btn btn-secondary">Back</button>
+      </section>
+
+      <!-- REVIEW SCREEN -->
+      <section id="screen-review" class="screen">
+        <h2>Review Missed Positions</h2>
+        <div id="review-list" class="review-list"></div>
+        <button id="btn-review-back" class="btn btn-secondary">Back</button>
+      </section>
+
+      <!-- SHORTCUTS MODAL -->
+      <div id="shortcuts-modal" class="modal hidden">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <h2>Keyboard Shortcuts</h2>
+          <dl class="shortcuts-list">
+            <dt>Enter</dt><dd>Submit answer</dd>
+            <dt>R</dt><dd>Reveal / Next phase</dd>
+            <dt>N</dt><dd>Next position</dd>
+            <dt>1-5</dt><dd>Select mode 1-5</dd>
+            <dt>Esc</dt><dd>Back to menu</dd>
+            <dt>D</dt><dd>Toggle dark mode</dd>
+          </dl>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts loaded in dependency order -->
+  <script src="js/chess/fen.js"></script>
+  <script src="js/chess/board.js"></script>
+  <script src="js/core/timer.js"></script>
+  <script src="js/ui/renderer.js"></script>
+  <script src="js/ui/theme.js"></script>
+  <script src="js/ui/components.js"></script>
+  <script src="js/storage/local.js"></script>
+  <script src="js/engine/scoring.js"></script>
+  <script src="js/engine/spaced.js"></script>
+  <script src="js/engine/daily.js"></script>
+  <script src="js/engine/modes/recall.js"></script>
+  <script src="js/engine/modes/reconstruct.js"></script>
+  <script src="js/engine/modes/change.js"></script>
+  <script src="js/engine/modes/missing.js"></script>
+  <script src="js/engine/modes/blindfold.js"></script>
+  <script src="js/core/app.js"></script>
+</body>
+</html>

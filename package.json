@@ -1,0 +1,11 @@
+{
+  "name": "chess-pattern-trainer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static chess pattern recognition memory trainer - GitHub Pages ready",
+  "scripts": {
+    "generate-positions": "npm install --no-save chess.js && node scripts/generate-positions.js"
+  },
+  "keywords": ["chess", "memory", "training", "visualization"],
+  "license": "MIT"
+}
