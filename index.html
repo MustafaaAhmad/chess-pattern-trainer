@@ -53,6 +53,11 @@
             <h2>Blindfold Trainer</h2>
             <p>Visualize the board without seeing it. Advanced.</p>
           </div>
+          <div class="mode-card" data-mode="openings" tabindex="0" role="button" aria-label="Openings Trainer mode">
+            <div class="mode-card-icon">📖</div>
+            <h2>Openings Trainer</h2>
+            <p>Learn and practice chess openings move by move.</p>
+          </div>
         </div>
         <div class="menu-extra">
           <button id="btn-daily" class="btn btn-primary">Daily Challenge</button>
@@ -161,6 +166,35 @@
         </div>
       </section>
 
+      <!-- OPENINGS TRAINER -->
+      <section id="screen-openings" class="screen">
+        <div id="openings-select-phase">
+          <h2>Select an Opening</h2>
+          <div id="openings-list" class="openings-list"></div>
+          <button id="btn-openings-back" class="btn btn-secondary" style="margin-top:12px;">Back to Menu</button>
+        </div>
+        <div id="openings-play-phase" class="hidden">
+          <div class="openings-header">
+            <div>
+              <h2 id="openings-title"></h2>
+              <div id="openings-line-name" class="openings-line-name"></div>
+            </div>
+            <div class="openings-stats">
+              <span id="openings-score" class="openings-score">0/0</span>
+            </div>
+          </div>
+          <div id="openings-board-container" class="board-container board-container--small"></div>
+          <div id="openings-status" class="openings-status"></div>
+          <div id="openings-feedback" class="openings-feedback hidden"></div>
+          <div class="openings-controls">
+            <button id="btn-openings-hint" class="btn btn-secondary btn-small">Hint</button>
+            <button id="btn-openings-skip" class="btn btn-secondary btn-small">Skip</button>
+            <button id="btn-openings-back-play" class="btn btn-secondary btn-small">Back to Menu</button>
+          </div>
+          <div id="openings-move-history" class="openings-move-history"></div>
+        </div>
+      </section>
+
       <!-- STATS SCREEN -->
       <section id="screen-stats" class="screen">
         <h2>My Stats</h2>
@@ -184,7 +218,7 @@
             <dt>Enter</dt><dd>Submit answer</dd>
             <dt>R</dt><dd>Reveal / Next phase</dd>
             <dt>N</dt><dd>Next position</dd>
-            <dt>1-5</dt><dd>Select mode 1-5</dd>
+            <dt>1-6</dt><dd>Select mode 1-6</dd>
             <dt>Esc</dt><dd>Back to menu</dd>
             <dt>D</dt><dd>Toggle dark mode</dd>
           </dl>
@@ -194,6 +228,7 @@
   </div>
 
   <!-- Scripts loaded in dependency order -->
+  <script src="js/lib/chess.js"></script>
   <script src="js/chess/fen.js"></script>
   <script src="js/chess/board.js"></script>
   <script src="js/core/timer.js"></script>
@@ -209,6 +244,7 @@
   <script src="js/engine/modes/change.js"></script>
   <script src="js/engine/modes/missing.js"></script>
   <script src="js/engine/modes/blindfold.js"></script>
+  <script src="js/engine/modes/openings.js"></script>
   <script src="js/core/app.js"></script>
 </body>
 </html>
