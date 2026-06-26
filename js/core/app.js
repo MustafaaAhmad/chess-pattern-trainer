@@ -242,6 +242,11 @@ var ChessTrainer = window.ChessTrainer || {};
       self.showScreen(STATE.MENU);
     });
 
+    document.querySelector('.logo').addEventListener('click', function () {
+      self.showScreen(STATE.MENU);
+    });
+    document.querySelector('.logo').style.cursor = 'pointer';
+
     document.getElementById('btn-review-back').addEventListener('click', function () {
       self.showScreen(STATE.MENU);
     });
@@ -532,6 +537,7 @@ var ChessTrainer = window.ChessTrainer || {};
   };
 
   App.prototype.showCurrentQuestion = function () {
+    var self = this;
     var modeInst = this.modeInstance;
     var q = modeInst.getCurrentQuestion();
     var total = modeInst.getQuestionCount();
