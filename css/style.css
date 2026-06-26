@@ -53,7 +53,7 @@ html, body {
   overflow-x: hidden;
 }
 
-button { cursor: pointer; font-family: inherit; font-size: inherit; border: none; outline: none; }
+button { cursor: pointer; font-family: inherit; font-size: inherit; border: none; outline: none; touch-action: manipulation; }
 button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 select { font-family: inherit; font-size: inherit; }
 input { font-family: inherit; font-size: inherit; }
@@ -345,19 +345,20 @@ input { font-family: inherit; font-size: inherit; }
   gap: 8px;
 }
 
-.recall-input-area input[type="text"] {
-  padding: 10px 16px;
+.recall-input {
+  padding: 12px 16px;
   border-radius: var(--border-radius);
   border: 2px solid rgba(0,0,0,0.2);
   background: var(--color-surface);
   color: var(--color-text);
-  width: 200px;
+  width: 100%;
+  max-width: 260px;
   text-align: center;
   font-size: 1.1rem;
   text-transform: uppercase;
 }
 
-.recall-input-area input[type="text"]:focus {
+.recall-input:focus {
   border-color: var(--color-primary);
   outline: none;
 }
@@ -571,8 +572,8 @@ input { font-family: inherit; font-size: inherit; }
 /* --- Responsive --- */
 @media (max-width: 600px) {
   :root {
-    --board-size: min(92vw, 400px);
-    --small-board-size: min(85vw, 320px);
+    --board-size: min(94vw, 400px);
+    --small-board-size: min(88vw, 320px);
   }
 
   .mode-grid {
@@ -584,14 +585,67 @@ input { font-family: inherit; font-size: inherit; }
   .mode-card h2 { font-size: 0.85rem; }
   .mode-card p { font-size: 0.75rem; }
 
-  #topbar { padding: 6px 10px; }
-  .logo { font-size: 0.95rem; }
+  #topbar {
+    padding: 6px 10px;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .topbar-left, .topbar-right {
+    gap: 6px;
+  }
+  .logo { font-size: 0.9rem; }
+  .streak-badge { font-size: 0.7rem; padding: 2px 8px; }
+  .difficulty-select { font-size: 0.75rem; padding: 2px 6px; max-width: 80px; }
+  .icon-btn { width: 32px; height: 32px; font-size: 1rem; }
 
-  .recall-input-area input[type="text"] { width: 160px; font-size: 1rem; }
   .results-accuracy { font-size: 2rem; }
 
   .menu-extra { flex-direction: column; align-items: stretch; }
   .menu-extra .btn { width: 100%; }
+
+  .recall-question-text { font-size: 1rem; }
+  .btn { padding: 10px 18px; font-size: 0.85rem; }
+  .btn-small { padding: 8px 12px; font-size: 0.75rem; }
+
+  .study-header, .recall-header, .openings-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+  .timer { font-size: 1.2rem; min-width: 40px; }
+
+  .results-list { max-width: 100%; padding: 0 4px; }
+
+  .modal-content { padding: 16px; }
+  .shortcuts-list { gap: 6px 12px; }
+  .shortcuts-list dt { font-size: 0.8rem; }
+
+  .piece-palette { gap: 3px; }
+  .palette-piece { width: 38px; height: 38px; font-size: 1.1rem; }
+  .openings-list { grid-template-columns: 1fr; }
+  .opening-card { padding: 12px; }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --board-size: 96vw;
+    --small-board-size: 92vw;
+  }
+  .mode-grid { grid-template-columns: 1fr; }
+  .mode-card { padding: 12px; }
+  .mode-card-icon { font-size: 1.6rem; }
+  .mode-card h2 { font-size: 0.8rem; }
+  .mode-card p { font-size: 0.7rem; }
+  .recall-input { max-width: 100%; font-size: 1rem; }
+  .recall-progress { font-size: 0.75rem; }
+  .results-accuracy { font-size: 1.6rem; }
+  .results-details { font-size: 0.8rem; }
+  .openings-list { grid-template-columns: 1fr; }
+  .opening-card { padding: 12px; }
+  .opening-card h3 { font-size: 0.85rem; }
+  .openings-move-history { max-height: 100px; font-size: 0.75rem; }
+  .openings-move-history .move-white,
+  .openings-move-history .move-black { min-width: 50px; }
 }
 
 @media (max-width: 400px) {

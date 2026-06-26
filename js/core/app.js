@@ -437,7 +437,6 @@ var ChessTrainer = window.ChessTrainer || {};
       input.type = 'text';
       input.placeholder = q.type === 'square-recall' ? 'e.g. e4' : 'e.g. White Queen';
       input.className = 'recall-input';
-      input.style.cssText = 'padding:10px 16px;border-radius:8px;border:2px solid rgba(0,0,0,0.2);background:var(--color-surface);color:var(--color-text);width:200px;text-align:center;font-size:1.1rem;';
       input.autofocus = true;
       inputArea.appendChild(input);
       input.addEventListener('keydown', function (e) {
@@ -970,7 +969,7 @@ var ChessTrainer = window.ChessTrainer || {};
       var input = document.createElement('input');
       input.type = 'text';
       input.placeholder = q.type === 'square-recall' ? 'e.g. e4' : 'e.g. White Queen';
-      input.style.cssText = 'padding:10px 16px;border-radius:8px;border:2px solid rgba(0,0,0,0.2);width:200px;text-align:center;font-size:1.1rem;';
+      input.className = 'recall-input';
       inputArea.appendChild(input);
       input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') self.onBlindfoldSubmit();
