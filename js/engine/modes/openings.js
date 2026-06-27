@@ -3,6 +3,10 @@ var ChessTrainer = window.ChessTrainer || {};
 (function (ns) {
   "use strict";
 
+  function normalizeSAN(san) {
+    return san.replace(/[+#\s]/g, '');
+  }
+
   function OpeningsMode(openingCategory, line) {
     this.categoryName = openingCategory.name;
     this.categoryId = openingCategory.id;
@@ -87,7 +91,7 @@ var ChessTrainer = window.ChessTrainer || {};
       this.totalAttempts++;
 
       var userSan = result.san;
-      if (userSan === expected) {
+      if (normalizeSAN(userSan) === normalizeSAN(expected)) {
         this.correctCount++;
         this.history.push({ san: result.san, isUser: true, correct: true, from: from, to: to });
         this.moveIndex++;
