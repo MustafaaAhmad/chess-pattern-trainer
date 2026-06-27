@@ -19,8 +19,8 @@
   --color-highlight-incorrect: rgba(231, 76, 60, 0.5);
   --color-highlight-missing: rgba(243, 156, 18, 0.5);
   --color-selected: rgba(74, 111, 165, 0.4);
-  --board-size: min(80vw, 560px);
-  --small-board-size: min(70vw, 380px);
+  --board-size: min(calc(100vw - 48px), 560px);
+  --small-board-size: min(calc(100vw - 64px), 380px);
   --border-radius: 8px;
   --transition-speed: 0.3s;
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -572,8 +572,8 @@ input { font-family: inherit; font-size: inherit; }
 /* --- Responsive --- */
 @media (max-width: 600px) {
   :root {
-    --board-size: min(94vw, 400px);
-    --small-board-size: min(88vw, 320px);
+    --board-size: min(calc(100vw - 32px), 400px);
+    --small-board-size: min(calc(100vw - 48px), 320px);
   }
 
   .mode-grid {
@@ -636,8 +636,8 @@ input { font-family: inherit; font-size: inherit; }
 
 @media (max-width: 400px) {
   :root {
-    --board-size: 96vw;
-    --small-board-size: 92vw;
+    --board-size: calc(100vw - 32px);
+    --small-board-size: calc(100vw - 48px);
   }
   .mode-grid { grid-template-columns: 1fr; }
   .mode-card { padding: 12px; }
