@@ -381,6 +381,7 @@ var ChessTrainer = window.ChessTrainer || {};
 
     var studyTime = this.modeInstance.getStudyTime ? this.modeInstance.getStudyTime() : 15;
     this.studyTimer.start(studyTime, function () {
+      if (self.state !== STATE.STUDY) return;
       self.onStudyEnd();
     });
   };
@@ -746,6 +747,7 @@ var ChessTrainer = window.ChessTrainer || {};
     this.showScreen('study');
     this.studyTimer.reset();
     this.studyTimer.start(20, function () {
+      if (self.state !== STATE.STUDY) return;
       self.startReconstructRecall();
     });
   };
@@ -883,6 +885,7 @@ var ChessTrainer = window.ChessTrainer || {};
     this.showScreen('study');
     this.studyTimer.reset();
     this.studyTimer.start(15, function () {
+      if (self.state !== STATE.STUDY) return;
       self.startMissingRecall();
     });
   };
@@ -947,6 +950,7 @@ var ChessTrainer = window.ChessTrainer || {};
     this.showScreen('study');
     this.studyTimer.reset();
     this.studyTimer.start(this.modeInstance.getStudyTime(), function () {
+      if (self.state !== STATE.STUDY) return;
       self.startBlindfoldRecall();
     });
   };
