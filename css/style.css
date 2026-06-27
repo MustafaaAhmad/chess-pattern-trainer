@@ -577,12 +577,13 @@ input { font-family: inherit; font-size: inherit; }
   }
 
   .mode-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
+    max-width: 340px;
   }
-  .mode-card { padding: 16px; }
-  .mode-card-icon { font-size: 2rem; }
-  .mode-card h2 { font-size: 0.85rem; }
+  .mode-card { padding: 14px; }
+  .mode-card-icon { font-size: 1.8rem; margin-bottom: 4px; }
+  .mode-card h2 { font-size: 0.9rem; margin-bottom: 2px; }
   .mode-card p { font-size: 0.75rem; }
 
   #topbar {
@@ -639,7 +640,6 @@ input { font-family: inherit; font-size: inherit; }
     --board-size: calc(100vw - 32px);
     --small-board-size: calc(100vw - 48px);
   }
-  .mode-grid { grid-template-columns: 1fr; }
   .mode-card { padding: 12px; }
   .mode-card-icon { font-size: 1.6rem; }
   .mode-card h2 { font-size: 0.8rem; }
