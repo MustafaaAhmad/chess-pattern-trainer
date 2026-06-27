@@ -152,8 +152,8 @@ input { font-family: inherit; font-size: inherit; }
 /* --- Mode Selection Grid --- */
 .mode-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 12px;
   width: 100%;
   margin: 24px 0;
 }
@@ -570,16 +570,21 @@ input { font-family: inherit; font-size: inherit; }
 }
 
 /* --- Responsive --- */
-@media (max-width: 600px) {
+@media (min-width: 600px) {
+  .mode-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 599px) {
   :root {
     --board-size: min(calc(100vw - 32px), 400px);
     --small-board-size: min(calc(100vw - 48px), 320px);
   }
 
   .mode-grid {
-    grid-template-columns: 1fr;
     gap: 10px;
-    max-width: 340px;
   }
   .mode-card { padding: 14px; }
   .mode-card-icon { font-size: 1.8rem; margin-bottom: 4px; }
