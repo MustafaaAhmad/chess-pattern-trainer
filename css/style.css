@@ -51,7 +51,9 @@ html, body {
   color: var(--color-text);
   transition: background var(--transition-speed), color var(--transition-speed);
   overflow-x: hidden;
+  width: 100%;
 }
+#app { width: 100%; max-width: 100vw; overflow-x: hidden; }
 
 button { cursor: pointer; font-family: inherit; font-size: inherit; border: none; outline: none; touch-action: manipulation; }
 button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
@@ -140,6 +142,8 @@ input { font-family: inherit; font-size: inherit; }
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
   animation: fadeIn 0.3s ease;
 }
 .screen.active { display: flex; }
@@ -155,7 +159,9 @@ input { font-family: inherit; font-size: inherit; }
   grid-template-columns: 1fr;
   gap: 12px;
   width: 100%;
+  max-width: 100%;
   margin: 24px 0;
+  box-sizing: border-box;
 }
 
 .mode-card {
@@ -166,6 +172,9 @@ input { font-family: inherit; font-size: inherit; }
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
 }
 .mode-card:hover {
   transform: translateY(-4px);
